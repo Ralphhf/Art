@@ -39,3 +39,27 @@ const observer = new IntersectionObserver(function (entries) {
 document.querySelectorAll('.artwork, .exhibition-item').forEach(el => {
     observer.observe(el);
 });
+
+// === Mobile nav toggle ===
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('primary-navigation');
+
+if (navToggle && navLinks) {
+    navToggle.addEventListener('click', () => {
+        const isOpen = navLinks.classList.toggle('open');
+        navToggle.classList.toggle('active', isOpen);
+        navToggle.setAttribute('aria-expanded', String(isOpen));
+        // Optional: lock body scroll when menu is open
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    // Close menu after clicking a link (nice on mobile)
+    navLinks.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            navToggle.classList.remove('active');
+            navToggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        });
+    });
+}
